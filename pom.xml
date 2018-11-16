@@ -5,7 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gmail.malikchettih.samples</groupId>
-    <artifactId>apache-shiro</artifactId>
+    <artifactId>apache-shiro-authentication</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>apache-shiro-tutorial-webapp</module>
+    </modules>
+
 </project>
