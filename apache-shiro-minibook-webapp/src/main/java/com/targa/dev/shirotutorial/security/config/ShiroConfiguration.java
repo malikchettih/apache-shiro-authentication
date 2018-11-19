@@ -20,8 +20,7 @@ import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.WebSecurityManager;
-
-import javax.enterprise.inject.Produces;
+import org.apache.shiro.web.util.WebUtils;
 
 public class ShiroConfiguration {
 
@@ -64,6 +63,7 @@ public class ShiroConfiguration {
             AnonymousFilter anon = new AnonymousFilter();
             UserFilter user = new UserFilter();
             LogoutFilter logout = new LogoutFilter();
+            LicensedUserFilter licuser = new LicensedUserFilter();
 
             authc.setLoginUrl(WebPages.LOGIN_URL);
             user.setLoginUrl(WebPages.LOGIN_URL);
@@ -74,12 +74,13 @@ public class ShiroConfiguration {
             filterChainManager.addFilter("anon", anon);
             filterChainManager.addFilter("user", user);
             filterChainManager.addFilter("logout", logout);
-
-            filterChainManager.createChain("/index.html", "anon");
+            filterChainManager.addFilter("licuser", licuser);
+            
             filterChainManager.createChain("/css/**", "anon");
             filterChainManager.createChain("/api/**", "anon");
+            filterChainManager.createChain(WebPages.NO_LICENSE_URL, "anon");
             filterChainManager.createChain(WebPages.LOGIN_URL, "authc");
-            filterChainManager.createChain("/**", "user");
+            filterChainManager.createChain("/**", "user,licuser");
 
 
             PathMatchingFilterChainResolver pathMatchingFilterChainResolver = new PathMatchingFilterChainResolver();
